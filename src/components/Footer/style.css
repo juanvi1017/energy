@@ -1,0 +1,24 @@
+.card-footer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.footer {
+    color: white;
+    float: left;
+    margin-top: 20px;
+    flex: 100%;
+    min-height: 200px;
+    background-color:  blue;
+}
+
+.footer h2 {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.footer p{
+    width: 60%;
+    margin: 10px auto;
+    text-align: justify;
+}

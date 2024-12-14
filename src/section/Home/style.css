@@ -1,0 +1,113 @@
+.card-home {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.echart {
+    flex: 64%;
+    min-height: 350px;
+    margin-right: 10px;
+}
+.label-echart {
+    float: left;
+    width: 60%;
+    height: 50px;
+    margin-left: 50px;
+    margin-top: 10px;
+    font-weight: bolder;
+    font-size: 18px;
+}
+.resumen {
+    flex: 30%;
+    height: 350px;
+}
+.information-home {
+    width: 100%;
+    padding: 10px;
+    height: 350px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.pay {
+    background-color: blue;
+    flex: 100%;
+    margin-bottom: 30px;
+    height: 100px;
+}
+.pay p {
+    margin: 6px;
+    color: white;
+}
+.pay h2 {
+    margin-top: 20px;
+    color: white;
+    text-align: center;
+}
+.last {
+    flex: 50%;
+}
+.average {
+    flex: 50%;
+}
+
+.recomendation {
+    float: left;
+    margin-top: 20px;
+    flex: 32%;
+    min-height: 300px;
+}
+
+.recomendation:nth-of-type(n+2) {
+    margin-left: 10px;
+}
+
+.recomendation-content {
+    padding: 10px;
+}
+.recomendation-content h3 {
+    margin-bottom: 10px;
+}
+.recomendation-content h5 {
+    margin-bottom: 10px;
+    color: gray;
+}
+.recomendation-content p {
+    margin-bottom: 10px;
+    color: rgb(61, 60, 60);
+}
+.sug {
+    margin-top: 40px;
+    flex: 100%;
+    color: gray;
+}
+.card-image {
+    width: 100%;
+    height: 200px;
+}
+
+.footer {
+    color: white;
+    float: left;
+    margin-top: 20px;
+    flex: 100%;
+    min-height: 200px;
+    background-color:  blue;
+}
+
+.footer h2 {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.footer p{
+    width: 60%;
+    margin: 10px auto;
+    text-align: justify;
+}
+
+@media (max-width: 600px) {
+    .echart, .resumen, .recomendation, .sug{
+        flex: 100%;
+        margin: 10px;
+    }
+  }

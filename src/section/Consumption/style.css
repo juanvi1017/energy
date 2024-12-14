@@ -1,0 +1,55 @@
+.card-Consumption {
+    display: flex;
+    flex-wrap: wrap;
+}
+.resumen {
+    flex: 30%;
+    height: 400px;
+}
+.information-Consumption {
+    width: 100%;
+    padding: 10px;
+    height: 400px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.footer {
+    color: white;
+    float: left;
+    margin-top: 20px;
+    flex: 100%;
+    min-height: 200px;
+    background-color:  blue;
+}
+
+.footer h2 {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.footer p{
+    width: 60%;
+    margin: 10px auto;
+    text-align: justify;
+}
+.form {
+    width: 50%;
+    margin: 30px auto 0;
+}
+
+.buttom-consumption {
+    float: right;
+    background-color: blue !important;
+}
+
+
+@media (max-width: 600px) {
+    .resumen {
+        flex: 100%;
+        margin: 10px;
+    }
+    .form {
+        width: 100%;
+    }
+  }
