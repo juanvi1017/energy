@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState, useContext } from 'react';
+import { FunctionComponent, useEffect, useState, useContext } from 'react';
 import Paper from '@mui/material/Paper';
 import BasicEchart from '../../components/Echart';
 import Footer from '../../components/Footer/Footer';
