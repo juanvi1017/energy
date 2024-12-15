@@ -15,13 +15,15 @@
 
 .resumen-table {
     flex: 30%;
-    height: 400px;
+    height: 75vh;
 }
 
 .information-Consumption-table {
+    overflow-x: 'auto';
+    overflow-y: 'auto';
     width: 100%;
     padding: 10px;
-    height: 400px;
+    max-height: 75vh;
     display: flex;
     flex-wrap: wrap;
 }
@@ -55,7 +57,7 @@
     .resumen-table {
         flex: 100%;
         margin: 10px;
-        height: auto;
+        height: 75vh;
     }
 
     .card {
@@ -63,8 +65,11 @@
         margin: 10px;
     }
 
-    .card-content, .information-Consumption-table {
+    .card-content {
         float: left;
         height: 100%;
+    }
+    .information-Consumption-table {
+        float: left;
     }
 }

@@ -8,6 +8,10 @@
     min-height: 350px;
     margin-right: 10px;
 }
+.echart2 {
+    flex: 100%;
+    min-height: 350px;
+}
 .label-echart {
     float: left;
     width: 60%;
@@ -29,7 +33,7 @@
     flex-wrap: wrap;
 }
 .pay {
-    background-color: blue;
+    background-color: rgb(13, 13, 14);
     flex: 100%;
     margin-bottom: 30px;
     height: 100px;
@@ -106,7 +110,7 @@
 }
 
 @media (max-width: 600px) {
-    .echart, .resumen, .recomendation, .sug{
+    .echart, .resumen, .recomendation, .sug, .echart2{
         flex: 100%;
         margin: 10px;
     }

@@ -9,7 +9,7 @@
     margin-top: 20px;
     flex: 100%;
     min-height: 200px;
-    background-color:  blue;
+    background-color: blue;
 }
 
 .footer h2 {
@@ -17,8 +17,14 @@
     margin-top: 30px;
 }
 
-.footer p{
+.footer p {
     width: 60%;
     margin: 10px auto;
     text-align: justify;
+}
+
+@media (max-width: 800px) {
+    .footer p {
+        width: 90% !important;
+    }
 }

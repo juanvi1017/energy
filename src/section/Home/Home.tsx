@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useState, useContext } from 'react';
 import Paper from '@mui/material/Paper';
 import BasicEchart from '../../components/Echart';
+import BasicEchartBar from '../../components/Echart/BasicEchartBar';
 import Footer from '../../components/Footer/Footer';
 import IconButton from '@mui/material/IconButton';
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
@@ -42,88 +43,113 @@ const Home: FunctionComponent = () => {
 
     const db: any = useContext(ContextDB);
 
-    const [category, setCategory] = useState<string[]>([])
-    const [loading, setLoading] = useState<boolean>(true)
-    const [dataEchart, setDataEchart] = useState<number[]>([])
-    const [average, setAverage] = useState<number>(0)
-    const [payLast, setPayLast] = useState({ 'consumo': 0, 'precio_kwh': 0 })
+    const [category, setCategory] = useState<string[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [dataEchart, setDataEchart] = useState<number[]>([]);
+    const [dataEchartPrice, setDataEchartPrice] = useState<number[]>([]);
+    const [average, setAverage] = useState<number>(0);
+    const [averagePrice, setAveragePrice] = useState<number[]>([]);
+    const [payLast, setPayLast] = useState({ consumo: 0, precio_kwh: 0 });
+    const [payBeforeLast, setBeforePayLast] = useState({ consumo: 0, precio_kwh: 0 });
 
-    const list = () => { // para obtener la ultima key
-        setLoading(true)
-        const request = db.transaction('consumption')
-            .objectStore('consumption')
-            .getAllKeys(IDBKeyRange.lowerBound(0, true))
-
-        request.onsuccess = () => {
-            const cursor = request.result;
-            if (cursor.length > 0) {
-                getValue(cursor[cursor.length - 7])
-            } else {
-                setLoading(false)
-                alert("Por favor ingrese un consumo")
-            }
-        }
-        request.onerror = () => {
-            console.error(`Error al obtener los resultados`)
-        }
-    }
-
-    const getValue = (key: any) => { // traer los ultimos 6 registros
-        if (key) {
+    const list = async () => {
+        try {
+            setLoading(true);
             const request = db.transaction('consumption')
                 .objectStore('consumption')
-                .getAll(IDBKeyRange.lowerBound(key, true), [6])
+                .getAllKeys(IDBKeyRange.lowerBound(0, true));
 
             request.onsuccess = () => {
-                const data = request.result;
-                let auxCategory: any[] = []
-                let auxEchart: any[] = []
-                let sum = 0;
-                data.forEach((value: any) => {
-                    auxCategory.push(value.mes)
-                    auxEchart.push(value.consumo)
-                    sum += value.consumo
-                });
-                setCategory(auxCategory)
-                setDataEchart(auxEchart)
-                setAverage(sum / data.length)
-                setPayLast(data[data.length - 1])
-            }
+                const cursor = request.result;
+                if (cursor.length > 0) {
+                    getValue(cursor[cursor.length - 7]);
+                } else {
+                    setLoading(false);
+                    alert("No tiene consumos ingresados");
+                }
+            };
             request.onerror = () => {
-                console.error(`Error al obtener los resultados`)
+                console.error('Error al obtener los resultados');
+            };
+        } catch (error) {
+            console.error('Error en la transacción:', error);
+            setLoading(false);
+        }
+    };
+
+    const getValue = async (key: any) => {
+        if (key) {
+            try {
+                const request = db.transaction('consumption')
+                    .objectStore('consumption')
+                    .getAll(IDBKeyRange.lowerBound(key, true), [6]);
+
+                request.onsuccess = () => {
+                    const data = request.result;
+                    processResults(data);
+                };
+                request.onerror = () => {
+                    console.error('Error al obtener los resultados');
+                };
+            } catch (error) {
+                console.error('Error en la transacción:', error);
+                setLoading(false);
             }
         } else {
-            const request = db.transaction('consumption')
-                .objectStore('consumption')
-                .getAll()
+            try {
+                const request = db.transaction('consumption')
+                    .objectStore('consumption')
+                    .getAll();
 
-            request.onsuccess = () => {
-                const data = request.result;
-                let auxCategory: any[] = []
-                let auxEchart: any[] = []
-                let sum = 0;
-                data.forEach((value: any) => {
-                    auxCategory.push(value.mes)
-                    auxEchart.push(value.consumo)
-                    sum += value.consumo
-                });
-                setCategory(auxCategory)
-                setDataEchart(auxEchart)
-                setAverage(sum / data.length)
-                setPayLast(data[data.length - 1])
-            }
-            request.onerror = () => {
-                console.error(`Error al obtener los resultados`)
+                request.onsuccess = () => {
+                    const data = request.result;
+                    processResults(data);
+                };
+                request.onerror = () => {
+                    console.error('Error al obtener los resultados');
+                };
+            } catch (error) {
+                console.error('Error en la transacción:', error);
+                setLoading(false);
             }
         }
-        setLoading(false)
-    }
+    };
+
+    const processResults = (data: any[]) => {
+        let auxCategory: string[] = [];
+        let auxEchart: number[] = [];
+        let auxEchartPrice: number[] = [];
+        let sum = 0;
+        let sumPrice = 0;
+
+        data.forEach((value) => {
+            auxCategory.push(value.mes);
+            auxEchart.push(value.consumo);
+            auxEchartPrice.push(value.precio_kwh);
+            sum += value.consumo;
+            sumPrice += value.precio_kwh;
+        });
+
+        const info = sumPrice / data.length;
+        const axisLine = new Array(data.length).fill(info);
+
+        setCategory(auxCategory);
+        setDataEchart(auxEchart);
+        setDataEchartPrice(auxEchartPrice);
+        setAverage(sum / data.length);
+        setAveragePrice(axisLine);
+        setPayLast(data[data.length - 1]);
+        if (data.length > 1) {
+            setBeforePayLast(data[data.length - 2]);
+        }
+        setLoading(false);
+    };
 
     useEffect(() => {
         if (db !== null) {
-            list()
+            list();
         }
-    }, [db])
+    }, [db]);
 
     return (
         !loading && (
@@ -151,27 +177,31 @@ const Home: FunctionComponent = () => {
                                     <BatteryChargingFullIcon style={{ color: green[500] }} />
                                     <h6>{payLast.consumo}kWh</h6>
                                 </IconButton>
-                                {(payLast.consumo * 100) / average > 100 && (
-                                    <IconButton
-                                        size="large"
-                                        edge="start"
-                                        aria-label="menu"
-                                        style={{ color: 'red' }}
-                                    >
-                                        <ArrowDropUpIcon />
-                                        <h6>{Math.round(((payLast.consumo * 100) / average) - 100)}%</h6>
-                                    </IconButton>
-                                )}
-                                {(payLast.consumo * 100) / average < 100 && (
-                                    <IconButton
-                                        size="large"
-                                        edge="start"
-                                        aria-label="menu"
-                                        style={{ color: 'green' }}
-                                    >
-                                        <ArrowDropDownIcon />
-                                        <h6>{Math.round((payLast.consumo * 100) / average)}%</h6>
-                                    </IconButton>
+                                {payBeforeLast.consumo > 0 && (
+                                    <>
+                                        {(payLast.consumo * 100) / payBeforeLast.consumo > 100 && (
+                                            <IconButton
+                                                size="large"
+                                                edge="start"
+                                                aria-label="menu"
+                                                style={{ color: 'red' }}
+                                            >
+                                                <ArrowDropUpIcon />
+                                                <h6>{Math.round(((payLast.consumo * 100) / payBeforeLast.consumo) - 100)}%</h6>
+                                            </IconButton>
+                                        )}
+                                        {(payLast.consumo * 100) / payBeforeLast.consumo < 100 && (
+                                            <IconButton
+                                                size="large"
+                                                edge="start"
+                                                aria-label="menu"
+                                                style={{ color: 'green' }}
+                                            >
+                                                <ArrowDropDownIcon />
+                                                <h6>{Math.round(100 - ((payLast.consumo * 100) / payBeforeLast.consumo))}%</h6>
+                                            </IconButton>
+                                        )}
+                                    </>
                                 )}
                             </div>
                             <div className='average'>
@@ -182,10 +212,16 @@ const Home: FunctionComponent = () => {
                                     aria-label="menu"
                                 >
                                     <BatteryChargingFullIcon style={{ color: green[500] }} />
-                                    <h6>{average} kWh</h6>
+                                    <h6>{Math.round(average)} kWh</h6>
                                 </IconButton>
                             </div>
                         </div>
+                    </Paper>
+                </div>
+                <div className='echart2'>
+                    <Paper elevation={3}>
+                        <label className='label-echart'>Precio KwH</label>
+                        <BasicEchartBar category={category} data={dataEchartPrice} average={averagePrice} />
                     </Paper>
                 </div>
                 <div className='sug'>
