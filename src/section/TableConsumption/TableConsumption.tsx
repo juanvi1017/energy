@@ -8,7 +8,8 @@ import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Footer from '../../components/Footer/Footer';
 
-import ContextDB from '../../hook/contextDB';
+
+import ContextDB from '../../hook/ContextDB';
 
 import './style.css';
 

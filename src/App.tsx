@@ -7,7 +7,7 @@ import Consumption from "./section/Consumption/Consumption";
 import { init, createDatabase } from './server';
 
 // hook
-import ContextDB from './hook/contextDB';
+import ContextDB from './hook/ContextDB';
 
 // routing
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';

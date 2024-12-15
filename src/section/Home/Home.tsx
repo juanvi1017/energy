@@ -11,7 +11,8 @@ import electronico from '../../assets/electronico.jpg';
 import sol from '../../assets/sol.jpg';
 import { green } from '@mui/material/colors';
 
-import ContextDB from '../../hook/contextDB';
+
+import ContextDB from '../../hook/ContextDB';
 
 import './style.css';
 
