@@ -56,7 +56,12 @@ const Home: FunctionComponent = () => {
 
         request.onsuccess = () => {
             const cursor = request.result;
-            getValue(cursor[cursor.length - 7])
+            if (cursor.length > 0) {
+                getValue(cursor[cursor.length - 7])
+            } else {
+                setLoading(false)
+                alert("Por favor ingrese un consumo")
+            }
         }
         request.onerror = () => {
             console.error(`Error al obtener los resultados`)
