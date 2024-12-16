@@ -1,0 +1,45 @@
+.not-found {
+    width: 100%;
+    height: 78vh;
+    text-align: center;
+    padding-top: 14%;
+    color: blue;
+}
+
+.not-found h3 {
+    font-size: 74px;
+    font-weight: bolder;
+}
+.not-found h3 span {
+    color: black;
+}
+.not-found h5 {
+    font-size: 24px;
+}
+
+.button-not-found {
+    background-color: black;
+    width: 100px;
+    color: white;
+    height: 30px;
+    border: none;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.button-not-found:hover {
+    background-color: blue;
+    opacity: .5;
+}
+
+@media (max-width: 1024px) {
+    .not-found {
+        padding-top: 35%;
+    }
+}
+
+@media (max-width: 800px) {
+    .not-found {
+        padding-top: 25%;
+    }
+}

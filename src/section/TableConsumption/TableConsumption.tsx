@@ -50,7 +50,6 @@ const TableConsumption: FunctionComponent = () => {
 
         request.onsuccess = () => {
             const cursor = request.result;
-            console.log(cursor)
             setData(cursor)
         }
         request.onerror = () => {

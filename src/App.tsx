@@ -4,6 +4,9 @@ import Admin from "./section";
 import Home from './section/Home/Home';
 import TableConsumption from './section/TableConsumption/TableConsumption';
 import Consumption from "./section/Consumption/Consumption";
+import NotFound from './components/NotFound';
+
+import Interceptor from './components/Interceptor';
 import { init, createDatabase } from './server';
 
 // hook
@@ -36,18 +39,27 @@ function App() {
       <Router basename='/'>
         <Routes >
           <Route path='/*' element={(
-            <Admin>
+            <Interceptor>
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/consumo" element={<Consumption />} />
-                <Route path="/tablaconsumo" element={<TableConsumption />} />
-              </Routes>
-            </Admin>
+                <Route path='/energy/*' element={(
+                  <Admin>
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/consumo" element={<Consumption />} />
+                      <Route path="/tablaconsumo" element={<TableConsumption />} />
+                      <Route path="/*" element={<NotFound />} />
+                    </Routes>
+                  </Admin>
+                )}>
+                </Route>
+                <Route path="/*" element={<NotFound />} />
+              </Routes >
+            </Interceptor>
           )}>
           </Route>
-        </Routes >
+        </Routes>
       </Router >
-    </ContextDB.Provider>
+    </ContextDB.Provider >
   )
 }
 

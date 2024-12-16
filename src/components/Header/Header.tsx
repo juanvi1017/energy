@@ -19,9 +19,9 @@ interface Props {
 
 const drawerWidth = 240;
 const navItems = [
-  { label: 'Home', link: '/' },
-  { label: 'Ingresar consumo', link: '/consumo' },
-  { label: 'Lista consumos', link: '/tablaconsumo' }
+  { label: 'Home', link: '/energy/' },
+  { label: 'Ingresar consumo', link: '/energy/consumo' },
+  { label: 'Lista consumos', link: '/energy/tablaconsumo' }
 ];
 
 const Header: FunctionComponent = (props: Props) => {

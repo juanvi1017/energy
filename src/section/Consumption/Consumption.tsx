@@ -1,11 +1,7 @@
-import { FunctionComponent, useState, useContext } from 'react';
+import React, { FunctionComponent, useState, useContext } from 'react';
 import Footer from '../../components/Footer/Footer';
 import Paper from '@mui/material/Paper';
 import { Grid2, TextField, Button } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { createObject } from '../../server';
 
@@ -20,13 +16,13 @@ const Consumption: FunctionComponent = () => {
 
     const [consumo, setConsumo] = useState('')
     const [observation, setObservation] = useState('')
-    const [month, setMonth] = useState('')
+    const [month, setMonth] = useState(`${new Date().getFullYear()}-${new Date().getMonth() + 1}`)
     const [valueConsumo, setValueConsumo] = useState('')
 
     const reset = () => {
         setConsumo('');
         setObservation('');
-        setMonth('');
+        setMonth(`${new Date().getFullYear()}-${new Date().getMonth() + 1}`);
         setValueConsumo('');
     }
 
@@ -42,10 +38,6 @@ const Consumption: FunctionComponent = () => {
             setObservation(event.target.value)
         }
     }
-
-    const handleChangeMonth = (event: SelectChangeEvent) => {
-        setMonth(event.target.value as string);
-      };
 
     const submit = () => {
         let error = false;
@@ -120,30 +112,16 @@ const Consumption: FunctionComponent = () => {
                                     />
                                 </Grid2>
                                 <Grid2 size={{ md: 12, xs: 12 }}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Mes</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            size='small'
-                                            value={month}
-                                            label="Mes"
-                                            onChange={handleChangeMonth}
-                                        >
-                                            <MenuItem value='Ene'>Enero</MenuItem>
-                                            <MenuItem value='Feb'>Febrero</MenuItem>
-                                            <MenuItem value='Mar'>Marzo</MenuItem>
-                                            <MenuItem value='Abr'>Abril</MenuItem>
-                                            <MenuItem value='May'>Mayo</MenuItem>
-                                            <MenuItem value='Jun'>Junio</MenuItem>
-                                            <MenuItem value='Jul'>Julio</MenuItem>
-                                            <MenuItem value='Ago'>Agosto</MenuItem>
-                                            <MenuItem value='Sep'>Septiembre</MenuItem>
-                                            <MenuItem value='Oct'>Octubre</MenuItem>
-                                            <MenuItem value='Nov'>Noviembre</MenuItem>
-                                            <MenuItem value='Dic'>Diciembre</MenuItem>
-                                        </Select>
-                                    </FormControl>
+                                    <TextField
+                                        fullWidth
+                                        size='small'
+                                        type='month'
+                                        name='month'
+                                        required
+                                        value={month}
+                                        onChange={handleChange}
+                                        label="Valor del kWh"
+                                    />
                                 </Grid2>
                                 <Grid2 size={{ md: 12, xs: 12 }}>
                                     <TextField
@@ -172,7 +150,7 @@ const Consumption: FunctionComponent = () => {
                     </div>
                 </Paper>
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
 }
