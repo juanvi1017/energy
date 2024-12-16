@@ -8,3 +8,7 @@
 .css-v75np-MuiTypography-root {
   font-family: system-ui !important;
 }
+
+.alertContainer {
+  z-index: 10000000;
+}

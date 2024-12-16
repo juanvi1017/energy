@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState, useContext } from 'react';
 import Footer from '../../components/Footer/Footer';
+import Alert from '../../components/Alert';
 import Paper from '@mui/material/Paper';
 import { Grid2, TextField, Button } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -54,10 +55,25 @@ const Consumption: FunctionComponent = () => {
         }
 
         if (error) {
-            alert(msg)
+            Alert.fire({ icon: 'error', title: msg })
         } else {
-            create()
+            listValidate()
         }
+    }
+
+    const listValidate = () => {
+
+        let transaction = db.transaction("consumption").objectStore("consumption");
+        let mesIndex = transaction.index("mes_idx");
+        let request = mesIndex.get(month);
+
+        request.onsuccess = function() {
+            if (request.result !== undefined) {
+                Alert.fire({ icon: 'error', title: 'Ya cuaneta con un registro del mes y año seleccionado' })
+            } else {
+                create();
+            }
+          };
     }
 
     const create = () => {
@@ -71,12 +87,12 @@ const Consumption: FunctionComponent = () => {
         };
         let request = createObject(transaction, consumption)
         request.onsuccess = function () {
-            alert("Consumo agregado al almacén");
+            Alert.fire({ icon: 'success', title: "Consumo agregado" })
             reset();
         };
 
         request.onerror = function () {
-            console.log("Error", request.error);
+            Alert.fire({ icon: 'error', title: request.error })
         };
     }
 
@@ -120,7 +136,7 @@ const Consumption: FunctionComponent = () => {
                                         required
                                         value={month}
                                         onChange={handleChange}
-                                        label="Valor del kWh"
+                                        label="Ingrese mes"
                                     />
                                 </Grid2>
                                 <Grid2 size={{ md: 12, xs: 12 }}>

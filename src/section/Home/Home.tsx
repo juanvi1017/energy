@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import Alert from '../../components/Alert';
 import luces from '../../assets/luces.jpg';
 import electronico from '../../assets/electronico.jpg';
 import sol from '../../assets/sol.jpg';
@@ -65,14 +66,14 @@ const Home: FunctionComponent = () => {
                     getValue(cursor[cursor.length - 7]);
                 } else {
                     setLoading(false);
-                    alert("No tiene consumos ingresados");
+                    Alert.fire({ icon: 'info', title: "No tiene consumos registrados" })
                 }
             };
             request.onerror = () => {
-                console.error('Error al obtener los resultados');
+                Alert.fire({ icon: 'error', title: "Error al obtener los resultados" })
             };
         } catch (error) {
-            console.error('Error en la transacción:', error);
+            Alert.fire({ icon: 'error', title: error })
             setLoading(false);
         }
     };
@@ -89,10 +90,10 @@ const Home: FunctionComponent = () => {
                     processResults(data);
                 };
                 request.onerror = () => {
-                    console.error('Error al obtener los resultados');
+                    Alert.fire({ icon: 'error', title: "Error al obtener los resultados" })
                 };
             } catch (error) {
-                console.error('Error en la transacción:', error);
+                Alert.fire({ icon: 'error', title: error })
                 setLoading(false);
             }
         } else {
@@ -106,10 +107,10 @@ const Home: FunctionComponent = () => {
                     processResults(data);
                 };
                 request.onerror = () => {
-                    console.error('Error al obtener los resultados');
+                    Alert.fire({ icon: 'error', title: "Error al obtener los resultados" })
                 };
             } catch (error) {
-                console.error('Error en la transacción:', error);
+                Alert.fire({ icon: 'error', title: error })
                 setLoading(false);
             }
         }

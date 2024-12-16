@@ -7,7 +7,8 @@ export const init = () => {
 export const createDatabase = (openRequest: any) => {
     let db = openRequest.result;
     if (!db.objectStoreNames.contains('consumption')) { // si no hay un almacén de consumo ("consumption") //TABLA,
-        db.createObjectStore('consumption', { keyPath: 'id', autoIncrement: true }); // crearlo
+        let value = db.createObjectStore('consumption', { keyPath: 'id', autoIncrement: true }); // crearlo
+        value.createIndex('mes_idx', 'mes', {'unique': true});
     }
 };
 

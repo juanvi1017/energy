@@ -10,6 +10,8 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Footer from '../../components/Footer/Footer';
+import Alert from '../../components/Alert';
+import ConfirmAction from '../../components/Alert/ConfirmAction'
 
 
 import ContextDB from '../../hook/ContextDB';
@@ -53,9 +55,13 @@ const TableConsumption: FunctionComponent = () => {
             setData(cursor)
         }
         request.onerror = () => {
-            console.error(`Error al obtener los resultados`)
+            Alert.fire({ icon: 'error', title: 'Error al obtener los resultados' })
         }
         setLoading(false)
+    }
+
+    const confirmDelete = (id: number) => {
+        ConfirmAction(() => deleteValue(id), `Se eliminara este registro.`);
     }
 
     const deleteValue = (value: number) => {
@@ -64,9 +70,10 @@ const TableConsumption: FunctionComponent = () => {
             .delete(value)
         request.onsuccess = () => {
             list()
+            Alert.fire({ icon: 'success', title: 'Eliminación exitosa' })
         }
         request.onerror = () => {
-            console.error(`Error al obtener los resultados`)
+            Alert.fire({ icon: 'error', title: 'Error al obtener los resultados' })
         }
     }
 
@@ -113,7 +120,7 @@ const TableConsumption: FunctionComponent = () => {
                                                             className='buttom-table-consumption'
                                                             startIcon={<DeleteIcon />}
                                                             variant="contained"
-                                                            onClick={() => deleteValue(value.id)}
+                                                            onClick={() => confirmDelete(value.id)}
                                                         >
                                                             Eliminar
                                                         </Button>
