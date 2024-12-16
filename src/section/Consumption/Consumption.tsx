@@ -69,7 +69,7 @@ const Consumption: FunctionComponent = () => {
 
         request.onsuccess = function() {
             if (request.result !== undefined) {
-                Alert.fire({ icon: 'error', title: 'Ya cuaneta con un registro del mes y año seleccionado' })
+                Alert.fire({ icon: 'error', title: 'Ya cuenta con un registro del mes y año seleccionado' })
             } else {
                 create();
             }
